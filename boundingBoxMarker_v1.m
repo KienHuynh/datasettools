@@ -409,7 +409,8 @@ elseif strcmp(handles.mode, 'edit')
     
     handles.data{currentImage} = [handles.data{currentImage}; [x1 y1 x2 y2]];
     numObject(currentImage) = numObject(currentImage) + 1;
-    infoDisplay (handles.imageID, handles.data, numObject(currentImage));
+    handles.graphics_rects{end+1} = ...
+        infoDisplay (handles.imageID, handles.data, numObject(currentImage));
     handles.numObject = numObject;
 end
 
