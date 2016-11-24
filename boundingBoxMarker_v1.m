@@ -22,7 +22,7 @@ function varargout = boundingBoxMarker_v1(varargin)
 
 % Edit the above text to modify the response to help boundingBoxMarker_v1
 
-% Last Modified by GUIDE v2.5 15-Nov-2016 09:54:42
+% Last Modified by GUIDE v2.5 24-Nov-2016 09:38:54
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -61,9 +61,12 @@ handles.currentRow = 0;
 handles.currentCol = 1;
 handles.saveReminderCounter = 0;
 handles.clickCounter = 0;
-handles.fileName = 'data1-xemay.mat';
+% handles.fileName = 'data 3\1501-1900\data4-xetai.mat';
+handles.fileName = 'trungnguyen-motorbike.mat';
 handles.mode = 'create';
 handles.graphics_rects = {};
+handles.last_key = '';
+handles.last_key_pressed = 0;
 if (exist(handles.fileName,'file'))
     load(handles.fileName);
     handles.data = bb_data;
@@ -423,35 +426,6 @@ disp([handles.imageID size(handles.data{handles.imageID},1)...
     handles.data{handles.imageID}(end,:)]);
 guidata(hObject,handles);
 
-
-% --- Executes on key press with focus on figure1 and none of its controls.
-function figure1_KeyPressFcn(hObject, eventdata, handles)
-% hObject    handle to figure1 (see GCBO)
-% eventdata  structure with the following fields (see FIGURE)
-%	Key: name of the key that was pressed, in lower case
-%	Character: character interpretation of the key(s) that was pressed
-%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
-% handles    structure with handles and user data (see GUIDATA)
-
-
-% --- Executes on key release with focus on figure1 and none of its controls.
-function figure1_KeyReleaseFcn(hObject, eventdata, handles)
-% hObject    handle to figure1 (see GCBO)
-% eventdata  structure with the following fields (see FIGURE)
-%	Key: name of the key that was released, in lower case
-%	Character: character interpretation of the key(s) that was released
-%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) released
-% handles    structure with handles and user data (see GUIDATA)
-switch eventdata.Key
-  case 'a'
-    previous_button_Callback(hObject, eventdata, handles)
-  case 'd'
-    next_button_Callback(hObject, eventdata, handles)
-end
-
-
-
-
 % --- Executes when selected object is changed in uipanel2.
 function uipanel2_SelectionChangeFcn(hObject, eventdata, handles)
 % hObject    handle to the selected object in uipanel2 
@@ -475,3 +449,54 @@ function uipanel2_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to uipanel2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+
+% --- Executes on key press with focus on figure1 and none of its controls.
+function figure1_KeyPressFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  structure with the following fields (see FIGURE)
+%	Key: name of the key that was pressed, in lower case
+%	Character: character interpretation of the key(s) that was pressed
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
+% handles    structure with handles and user data (see GUIDATA)
+
+time = cputime;
+if (strcmp(eventdata.Key, 'a') || strcmp(eventdata.Key, 'leftarrow'))
+%     if (strcmp(handles.last_key, 'shift') && ...
+%             (time-handles.last_key_pressed < 0.1))
+%         handles = guidata(hObject);
+%         handles.imageID = handles.imageID-4;
+%         guidata(hObject,handles);
+%     end
+    previous_button_Callback(hObject, eventdata, handles)
+elseif (strcmp(eventdata.Key, 'd') || strcmp(eventdata.Key, 'rightarrow'))
+%     if (strcmp(handles.last_key, 'shift') && ...
+%             (time-handles.last_key_pressed < 0.1))
+%         handles = guidata(hObject);
+%         handles.imageID = handles.imageID+4;
+%         guidata(hObject,handles);
+%     end
+    next_button_Callback(hObject, eventdata, handles)
+elseif (strcmp(eventdata.Key, 'w') || strcmp(eventdata.Key, 'uparrow'))
+    handles = guidata(hObject);
+    handles.imageID = handles.imageID+4;
+    guidata(hObject,handles);
+    next_button_Callback(hObject, eventdata, handles)
+elseif (strcmp(eventdata.Key, 's') || strcmp(eventdata.Key, 'downarrow'))
+    handles = guidata(hObject);
+    handles.imageID = handles.imageID-4;
+    guidata(hObject,handles);
+    next_button_Callback(hObject, eventdata, handles)
+end
+handles = guidata(hObject);
+handles.last_key = eventdata.Key;
+handles.last_key_pressed = time;
+guidata(hObject,handles);
+
+% --- Executes on key release with focus on figure1 and none of its controls.
+function figure1_KeyReleaseFcn(hObject, eventdata, handles)
+% hObject    handle to figure1 (see GCBO)
+% eventdata  structure with the following fields (see FIGURE)
+%	Key: name of the key that was released, in lower case
+%	Character: character interpretation of the key(s) that was released
+%	Modifier: name(s) of the modifier key(s) (i.e., control, shift) released
+% handles    structure with handles and user data (see GUIDATA)
