@@ -1,4 +1,4 @@
-function [top] = create_voc_xml_top(filename)
+function [top] = create_voc_xml_top(filename, author, im_w, im_h)
     
     top = {'<annotation>';
     '<folder>motorbike1</folder>';
@@ -11,11 +11,17 @@ function [top] = create_voc_xml_top(filename)
     '</source>';
     '<owner>';
     '<flickrid>none</flickrid>';
-    '<name>Rob Whitworth</name>';
+    '<name>';
+    author;
+    '</name>';
     '</owner>';
     '<size>';
-    '<width>1280</width>';
-    '<height>720</height>';
+    '<width>';
+    int2str(im_w);
+    '</width>';
+    '<height>';
+    int2str(im_h);
+    '</height>';
     '<depth>3</depth>';
     '</size>';
     '<segmented>0</segmented>'};
